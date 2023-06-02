@@ -14,7 +14,7 @@ export class User {
   @Column({ type: "varchar" , length: 100, unique: true })
   email: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", select: false })
   password: string;
   
   @OneToMany(() => Order, orderProduct => orderProduct.user)

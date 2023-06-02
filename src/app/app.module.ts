@@ -5,6 +5,9 @@ import { RouterModule } from 'nest-router';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Routes } from './app.route';
 import { AuthModule } from 'module/auth/auth.module';
+import { UserModule } from 'module/user/user.module';
+import { ProductModule } from 'module/product/product.module';
+import { OrderModule } from 'module/order/order.module';
 
 @Module({
   imports: [
@@ -20,7 +23,10 @@ import { AuthModule } from 'module/auth/auth.module';
       logger : "debug"
     }),
     RouterModule.forRoutes(Routes),
-    AuthModule
+    AuthModule,
+    UserModule,
+    ProductModule,
+    OrderModule
   ],
   controllers: [AppController],
   providers: [AppService],

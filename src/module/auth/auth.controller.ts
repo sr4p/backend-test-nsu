@@ -1,7 +1,8 @@
 import { Controller, Post, Request, Body,Get, UseGuards} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthLoginDto } from './auth.dto';
+import { AuthLoginDto, AuthRegisterDto } from './auth.dto';
 import { JwtAuthGuard } from 'guard/auth.guard';
+import { AuthenticatedRequest } from './auth.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -13,9 +14,15 @@ export class AuthController {
         return result
     }
 
+    @Post('register')
+    async register(@Body() body : AuthRegisterDto) {
+        const result = await this.Service.register(body)
+        return result
+    }
+
     @UseGuards(JwtAuthGuard)
     @Get('test')
-    async test(@Request() req) {
+    async test(@Request() req : AuthenticatedRequest) {
         console.log(req.user);
         return "hi tk"
     }

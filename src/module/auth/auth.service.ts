@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/user.entity';
 import { Repository } from 'typeorm';
-import { AuthJWTDto, AuthLoginDto } from './auth.dto';
+import { AuthJWTDto, AuthLoginDto, AuthRegisterDto } from './auth.dto';
+import { UserService } from 'module/user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +12,7 @@ export class AuthService {
         @InjectRepository(User)
         private userRepository: Repository<User>,
         private jwtService: JwtService,
+        private userService: UserService,
     ) {}
 
     async validation(email: string, password: string) : Promise<AuthJWTDto | null> {
@@ -20,12 +22,18 @@ export class AuthService {
     }
 
     async getUserById(id : number) : Promise<User> {
-        const result = await this.userRepository.findOne({ where : { id },select: ['id','name','email']});
+        const result = await this.userService.getUserById(id);
         return result
     }
 
     async checkUserById(id : number) : Promise<boolean> {
-        const result = await this.userRepository.exist({ where : { id }});
+        const result = await this.userService.checkUserById(id);
+        return result
+    }
+
+    async register(body : AuthRegisterDto) {
+        const create = this.userRepository.create(body)
+        const result = await this.userRepository.save(create)
         return result
     }
 
