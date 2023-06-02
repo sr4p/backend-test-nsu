@@ -9,7 +9,7 @@
     "target": "es2017",
     "strict": true,
     "alwaysStrict": false,
-    // "noImplicitThis":false ,
+    "noImplicitReturns": true,
     "noUnusedLocals": false,
     "sourceMap": true,
     "outDir": "./dist",
@@ -20,6 +20,17 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "*": ["src/*"],
+      "@module/*": ["src/module/*"],
+      "@config/*": ["src/config/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@entities/*": ["src/entities/*"],
+      "@repositories/*": ["src/repositories/*"],
+      "@routes/*": ["src/routes/*"],
+      "@validations/*": ["src/validations/*"],
+    }
+  },
+  "compileOnSave": true,
 }
