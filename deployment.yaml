@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-test
+  template:
+    metadata:
+      labels:
+        app: backend-test
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: backend-test
+          image: docker.io/sr4p/backend-test-nsu:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: CONFIG_SERVERPORT
+              value: "3000"
+            - name: CONFIG_APIPREFIX
+              value: "api"
+
+            - name: SECRET_JWT
+              value: "dsXU8uU5C7PJvNHI1fmy4MqMPhQzpua07"
+            - name: SECRET_KEY
+              value: "f2XaM30tJeUAb0vSSjR7U3yp"
+            - name: SECRET_EXPIRE
+              value: "36000"
+
+            - name: TYPEORM_TYPE
+              value: "postgres"
+            - name: TYPEORM_HOST
+              value: "localhost"
+            - name: TYPEORM_PORT
+              value: "5432"
+            - name: TYPEORM_USERNAME
+              value: "postgres"
+            - name: TYPEORM_PASSWORD
+              value: "passw0rd"
+            - name: TYPEORM_DATABASE
+              value: "backend_nsu"
+            - name: TYPEORM_ENTITIES
+              value: "src/entities/*.ts"
+            - name: TYPEORM_SYNCHRONIZE
+              value: "true"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 3000

@@ -10,6 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
+    "docker": "rimraf dist && nest build && nest start --watch",
     "start:ts-node": "env-cmd -f dev.env nodemon src/main.ts",
     "start:dev": "env-cmd -f dev.env nest start --watch",
     "start:debug": "nest start --debug --watch",
